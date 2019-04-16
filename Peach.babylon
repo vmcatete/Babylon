@@ -1,0 +1,10 @@
+{"producer":{"name":"Blender","version":"2.74 (sub 0)","exporter_version":"4.6.1","file":"untitled_scene.babylon"},
+"autoClear":true,"clearColor":[0.2,0.2,0.2],"ambientColor":[0,0,0],"gravity":[0,-9.81,0],
+"materials":[],
+"multiMaterials":[],
+"skeletons":[],
+"meshes":[{"name":"peach","id":"peach","position":[0,0,0],"rotationQuaternion":[0,0,0,-1],"scaling":[1,1,1],"isVisible":false,"isEnabled":true,"checkCollisions":false,"billboardMode":0,"receiveShadows":false}],
+"cameras":[],
+"lights":[],
+"shadowGenerators":[]
+}
