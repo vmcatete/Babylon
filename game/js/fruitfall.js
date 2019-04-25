@@ -1,4 +1,4 @@
-        //https://www.babylonjs-playground.com/#ZLUTWE#14
+        //https://www.babylonjs-playground.com/#ZLUTWE#16
         var players = [];
         var playerLabels=[];
         var playerPoints = [];
@@ -212,7 +212,7 @@
         
                 var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
                 image1.width = "40px";
-                image1.height = "40px";
+                image1.height = "35x";
                 image1.left = "5px";
                 image1.verticalAlignment = vert;
                 image1.horizontalAlignment = horz;
