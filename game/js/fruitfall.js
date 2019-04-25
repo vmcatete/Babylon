@@ -235,10 +235,10 @@
                 rect1.addControl(label1);
                 return label1;
             }
-            playerLabels[0] = createPlayerBadge("green", "Points: 0", "Peach_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);
-            playerLabels[1] = createPlayerBadge("blue", "Points: 0", "Mario_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
-            playerLabels[2] = createPlayerBadge("gray", "Points: 0", "Luigi_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
-            playerLabels[3] = createPlayerBadge("red", "Points: 0" , "Toad_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);   
+            playerLabels[0] = createPlayerBadge("green", "Points: 0", "Yoshi_face_pink.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);
+            playerLabels[1] = createPlayerBadge("blue", "Points: 0", "Yoshi_face_blue.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
+            playerLabels[2] = createPlayerBadge("gray", "Points: 0", "Yoshi_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
+            playerLabels[3] = createPlayerBadge("red", "Points: 0" , "Yoshi_face_orange.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);   
         }
         
 
