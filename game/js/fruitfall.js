@@ -78,10 +78,10 @@
             
             // Load Characters then begin game
             Promise.all([
-                loadCharacter(0, "Yoshi_pink.babylon", new BABYLON.Vector3(80, 4.5, 0), new BABYLON.Vector3(15, 50, 15), spheres),
-                loadCharacter(1, "Yoshi_blue.babylon", new BABYLON.Vector3(0, 4.5, 0), new BABYLON.Vector3(25, 150, 25), spheres), 
-                loadCharacter(2, "Yoshi.babylon", new BABYLON.Vector3(55, 4.5, 0), new BABYLON.Vector3(25, 150, 25), spheres),
-                loadCharacter(3, "Yoshi_orange.babylon", new BABYLON.Vector3(30, 4.5, 0), new BABYLON.Vector3(25, 100, 25), spheres),      
+                loadCharacter(0, "Yoshi_pink.babylon", new BABYLON.Vector3(80, 4.5, 0), new BABYLON.Vector3(25, 100, 25), spheres),
+                loadCharacter(1, "Yoshi_blue.babylon", new BABYLON.Vector3(0, 4.5, 0), new BABYLON.Vector3(18, 100, 18), spheres), 
+                loadCharacter(2, "Yoshi.babylon", new BABYLON.Vector3(55, 4.5, 0), new BABYLON.Vector3(27, 100, 27), spheres),
+                loadCharacter(3, "Yoshi_orange.babylon", new BABYLON.Vector3(30, 4.5, 0), new BABYLON.Vector3(25, 100, 25), spheres),    
                 ]).then(() => {
                     playersReady=true;
                     engine.hideLoadingUI();
@@ -235,10 +235,10 @@
                 rect1.addControl(label1);
                 return label1;
             }
-            playerLabels[0] = createPlayerBadge("green", "Points: 0", "Yoshi_face_pink.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);
-            playerLabels[1] = createPlayerBadge("blue", "Points: 0", "Yoshi_face_blue.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
-            playerLabels[2] = createPlayerBadge("gray", "Points: 0", "Yoshi_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
-            playerLabels[3] = createPlayerBadge("red", "Points: 0" , "Yoshi_face_orange.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);   
+            playerLabels[0] = createPlayerBadge("green", "Points: 0", "yoshi_face_pink.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);
+            playerLabels[1] = createPlayerBadge("blue", "Points: 0", "yoshi_face_blue.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
+            playerLabels[2] = createPlayerBadge("gray", "Points: 0", "yoshi_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
+            playerLabels[3] = createPlayerBadge("red", "Points: 0" , "yoshi_face_orange.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);   
         }
         
 
