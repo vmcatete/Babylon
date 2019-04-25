@@ -241,6 +241,4 @@
             playerLabels[3] = createPlayerBadge("red", "Points: 0" , "Toad_face.png", BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM, BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT);   
         }
         
-        
-    </script>
 
