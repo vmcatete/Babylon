@@ -179,7 +179,7 @@
         }
         
         function loadCharacter(playerNum, mesh, position, scale, spheres) {
-            var baseURL = "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/";
+            var baseURL = "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/";
             BABYLON.SceneLoader.ImportMeshAsync("", baseURL, mesh, scene).then(function (result) {
                     result.meshes[0].scaling = scale;
                     result.meshes[0].position = position;  
@@ -210,7 +210,7 @@
                 panel.left="5px";
                 advancedTexture.addControl(panel);   
         
-                var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/" +icon);
+                var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
                 image1.width = "40px";
                 image1.height = "40px";
                 image1.left = "5px";
