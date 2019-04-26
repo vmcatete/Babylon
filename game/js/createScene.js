@@ -244,7 +244,7 @@ const loadGUI = (scene) => {
         panel.left="5px";
         gameGui.addControl(panel);   
 
-        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets" +icon);
+        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
         image1.width = "40px";
         image1.height = "40px";
         image1.left = "5px";
@@ -374,7 +374,7 @@ const generateTerrain = (scene) => {
 }
 
 const loadCharacters = (scene, players = []) => {
-	var baseURL = "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets";
+	var baseURL = "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/";
     BABYLON.SceneLoader.ImportMesh("", baseURL, "Peach.babylon", mainScene, function(newMeshes) {
         players[0] = newMeshes[0];
         players[0].scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
