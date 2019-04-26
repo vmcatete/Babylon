@@ -105,8 +105,14 @@ const triggerEvent = async () => {
                 minigame = games[1](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
                 break; 
             case 2:
-                minigame = games[2](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
-                break;
+		while(gamePlayers.length < 4) {
+                    var playerNum = Math.floor(Math.random() * 100) % 4;
+                    if (gamePlayers.indexOf(playerNum) === -1) {
+                        gamePlayers.push(playerNum);
+                    }
+                }
+                minigame = games[2](createScene, baseInfo, scoreList, gamePlayers[0], gamePlayers[1], gamePlayers[2], gamePlayers[3]);
+              	break;
         }
     }, 2000);
 }
