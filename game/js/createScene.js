@@ -1,5 +1,6 @@
 import {createScene as toadAttack} from "./toadAttackScene.js";
 import {createScene as hotBobomb} from "./hotBobombScene.js";
+import {createScene as fruitNinja} from "./fruitCaptureScene.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	if (BABYLON.Engine.isSupported()) {
@@ -14,10 +15,14 @@ var rollMessage;
 var playerList = [];
 var playerPoints = [];
 var playerLabels = [];
-var games = [toadAttack, hotBobomb];
-var createScene = function () {
+var games = [toadAttack, hotBobomb, fruitNinja];
+var baseInfo;
+var scoreList;
+var engine;
+var cPlayerNum;
+var createScene = function (baseInformation, updatedScores) {
     var canvas = document.getElementById("renderCanvas");
-    var engine = new BABYLON.Engine(canvas, true);
+    engine = new BABYLON.Engine(canvas, true);
 	// This creates a basic Babylon Scene object (non-mesh)
     mainScene = new BABYLON.Scene(engine);
     mainScene.clearColor =  new BABYLON.Color3(0.5, 0.8, 0.8);
@@ -36,18 +41,36 @@ var createScene = function () {
 
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
+    
+    engine.loadingUIText = "Mario Party Board loading...";
+    engine.displayLoadingUI();
 
     generateTerrain(mainScene);
-
+    
     playerList = loadCharacters(mainScene);
     setTimeout(function() {    
-        currentPlayer=playerList[0];    
-    }, 2500);
+        if (baseInformation != undefined) {
+           playerList[0].position = baseInformation.player1Pos;
+           playerList[1].position = baseInformation.player2Pos;
+           playerList[2].position = baseInformation.player3Pos;
+           playerList[3].position = baseInformation.player4Pos;
+           currentPlayer = playerList[baseInformation.cPlayer];
+        } else {
+           cPlayerNum = 0;
+           currentPlayer = playerList[cPlayerNum];
+        }
+        if (updatedScores != undefined) {
+            updatePlayerScore(0, updatedScores.player1Score);
+            updatePlayerScore(1, updatedScores.player2Score);
+            updatePlayerScore(2, updatedScores.player3Score);
+            updatePlayerScore(3, updatedScores.player4Score);
+        }
+        engine.hideLoadingUI();
+    }, 5000);
 
     playerPoints = [0,0,0,0];
     playerLabels = [];
     loadGUI(mainScene);
-    
     engine.runRenderLoop(function() {
         mainScene.render();
     });
@@ -56,15 +79,37 @@ var createScene = function () {
 
 };    
 
-const triggerEvent = () => {
-    /* Determine which game */
-    var gameIndex = Math.floor(Math.random()*100) % 2;  // CHANGE TO 3 WHEN FRUIT CAPTURE IS IN!!!
-    /* Determine how many and which players */
-    
-    
-    gameGui.removeControl(rollMessage);
-    updatePlayerScore(playerList.indexOf(currentPlayer), Math.floor(Math.random()*100) % 10 +1);
+const triggerEvent = async () => {
     nextPlayer();
+    setTimeout(function() {
+        /* Build updated baseInfo and scoreList information */
+        baseInfo = {player1Pos: playerList[0].position, player2Pos: playerList[1].position, player3Pos: playerList[2].position, player4Pos: playerList[3].position, cPlayer: cPlayerNum};
+        scoreList = {player1Score: playerPoints[0], player2Score: playerPoints[1], player3Score: playerPoints[2], player4Score: playerPoints[3]};
+        /* Determine which game */
+        var gameIndex = Math.floor(Math.random()*100) % 3;
+        /* Determine how many and which players */
+        var gamePlayers = [];
+        var minigame;
+        
+        engine.stopRenderLoop();
+        switch(gameIndex) {
+            case 0:
+                while(gamePlayers.length < 3) {
+                    var playerNum = Math.floor(Math.random() * 100) % 4;
+                    if (gamePlayers.indexOf(playerNum) === -1) {
+                        gamePlayers.push(playerList[playerNum]);
+                    }
+                }
+                minigame = games[0](createScene, baseInfo, scoreList, gamePlayers[0], gamePlayers[1], gamePlayers[2]);
+                break;
+            case 1:
+                minigame = games[1](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
+                break; 
+            case 2:
+                minigame = games[2](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
+                break;
+        }
+    }, 2000);
 }
 
 
@@ -155,13 +200,19 @@ const animateMovement = (scene, roll) => {
     {
         mainScene.beginDirectAnimation(currentPlayer, [zSlide], 0, 2 * frameRate, false, 1,
             () => {
-                mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false, triggerEvent());
+                mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false/*, triggerEvent()*/);
+        setTimeout(function() {
+            triggerEvent();
+        }, 3000);
     });
     } //Front || Back 
     if (Math.abs(currentPlayer.position.z) == 3.5 && Math.abs(currentPlayer.position.x)!=3.5)
     {
         mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false, 1, () => {
-        mainScene.beginDirectAnimation(currentPlayer, [zSlide], 0, 2 * frameRate, false,  triggerEvent() );
+        mainScene.beginDirectAnimation(currentPlayer, [zSlide], 0, 2 * frameRate, false/*,triggerEvent()*/ );
+        setTimeout(function() {
+            triggerEvent();
+        }, 3000);
     });
     } //FL || BR
     if (currentPlayer.position.x == currentPlayer.position.z)
@@ -172,6 +223,7 @@ const animateMovement = (scene, roll) => {
     {
         mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false,  triggerEvent());
     }
+    
 }
 
 const loadGUI = (scene) => {
@@ -187,7 +239,7 @@ const loadGUI = (scene) => {
         panel.left="5px";
         gameGui.addControl(panel);   
 
-        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
+        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets" +icon);
         image1.width = "40px";
         image1.height = "40px";
         image1.left = "5px";
@@ -253,11 +305,12 @@ const createRollSplash = (move) => {
 }
 
 const nextPlayer = () => {
-    currentPlayer = playerList.indexOf(currentPlayer)===3? playerList[0] : playerList[playerList.indexOf(currentPlayer)+1];
+    cPlayerNum = (cPlayerNum + 1) % 4;
+    currentPlayer = playerList[cPlayerNum];
 }
 
 const updatePlayerScore = (playerNum, points) => {
-    playerPoints[playerNum] += points;
+    playerPoints[playerNum] = points;
     playerLabels[playerNum].text = "Points: " +  playerPoints[playerNum].toString(); 
 }
 
@@ -316,35 +369,37 @@ const generateTerrain = (scene) => {
 }
 
 const loadCharacters = (scene, players = []) => {
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/", "Peach.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Peach.babylon", mainScene, function(newMeshes) {
         players[0] = newMeshes[0];
         players[0].scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
         players[0].position = new BABYLON.Vector3(-1.5, .4, 3.5);
         players[0].charName = "peach";      
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/", "Mario.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Mario.babylon", mainScene, function(newMeshes) {
         players[1] = newMeshes[0];
         players[1].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[1].position = new BABYLON.Vector3(-.5, .35, -3.5);
         players[1].charName = "mario";
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/", "Luigi.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Luigi.babylon", mainScene, function(newMeshes) {
         players[2] = newMeshes[0];
         players[2].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[2].position = new BABYLON.Vector3(2.5, .35, -3.5);
         players[2].charName = "luigi";
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/", "Toad.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Toad.babylon", mainScene, function(newMeshes) {
         players[3] = newMeshes[0];
         players[3].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[3].position = new BABYLON.Vector3(.5, .35, -3.5);
         players[3].charName = "toad";
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/", "Yoshi.babylon", mainScene, function(newMeshes) {
+    /*
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Yoshi.babylon", mainScene, function(newMeshes) {
         players[4] = newMeshes[0];
         players[4].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[4].position = new BABYLON.Vector3(1.5, .35, -3.5);
         players[4].charName = "yoshi";
     });
+    */
     return players;
 }
