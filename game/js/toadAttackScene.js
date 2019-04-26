@@ -1,4 +1,4 @@
-export function createScene(player1, player2, player3) {
+export function createScene(mainScene, baseInfo, scoreList, player1, player2, player3) {
     var score = 0;
     var TOAD_MODEL;
     var LANES_POSITIONS = [];
@@ -175,6 +175,7 @@ export function createScene(player1, player2, player3) {
                 break;
         }
         if (totalToadsA == 20 && totalToadsB == 20 && totalToadsC == 20) {
+            engine.stopRenderLoop();
             alert("FINISH");
             var aRatio = toadsHitA/totalToadsA;
             var bRatio = toadsHitB/totalToadsB;
@@ -193,8 +194,10 @@ export function createScene(player1, player2, player3) {
                     alert("TIE!");
                     break;
             }
-            engine.stopRenderLoop();
-            return {gameScene: scene, scores: [aRatio * 100, bRatio * 100, cRatio * 100]};
+            scoreList.player1Score += aRatio * 100;
+            scoreList.player2Score += bRatio * 100;
+            scoreList.player3Score += cRatio * 100;
+            mainScene(baseInfo, scoreList);
         }
     };
 
