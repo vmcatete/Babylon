@@ -100,31 +100,34 @@
                 });
         
             //Handle player keyboard input
-            var inputMap ={};
-            scene.actionManager = new BABYLON.ActionManager(scene);
-            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {								
-                inputMap[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
-            }));
-            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {								
-                inputMap[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
-            }));
-        
-            // Game/Render loop
-            scene.onBeforeRenderObservable.add(()=>{
-                if(inputMap["a"])
-                    players[0].position.x+=0.5        
-                if(inputMap["d"])
-                    players[0].position.x-=0.5        
-                if(inputMap["j"])
-                    players[1].position.x+=0.5         
-                if( inputMap["l"])
-                    players[1].position.x-=0.5
-                // if( inputMap["w"])
-                // {
-                //     displayWinSplash(1);
-                //     engine.stopRenderLoop();
-                // }
-            });
+           function onKeyDown(evt) {
+                if (playersReady) {
+                    switch(evt.keyCode) {
+                        case 65:   {
+                            players[player1].position.x+=0.5 
+                            break;
+                        }
+                        case 68: {
+                            players[player1].position.x-=0.5; 
+                            break;
+                        }
+                        case 74: {
+                            players[player2].position.x+=0.5 
+                            break;
+                        }
+                        case 76:{
+                            players[player2].position.x-=0.5; 
+                            break;
+                        }
+                        // if( inputMap["w"])
+                        // {
+                        //     displayWinSplash(1);
+                        //     engine.stopRenderLoop();
+                        // }
+                    }
+                }
+        }
+        window.addEventListener("keydown", onKeyDown);   
         
             scene.registerBeforeRender(function () {
                 if (scene) {
