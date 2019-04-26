@@ -1,13 +1,12 @@
 import {createScene as toadAttack} from "./toadAttackScene.js";
 import {createScene as hotBobomb} from "./hotBobombScene.js";
-//import {createScene as fruitNinja} from "./fruitCaptureScene.js";
+import {createScene as fruitNinja} from "./fruitCaptureScene.js";
 
 document.addEventListener("DOMContentLoaded", function () {
 	if (BABYLON.Engine.isSupported()) {
         createScene();
 	}
 }, false);
-var fruitNinja;
 var currentPlayer;
 var mainScene;
 var gameGui;
