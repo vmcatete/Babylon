@@ -1,4 +1,4 @@
-export function createScene(player1, player2, player3, player4) {
+export function createScene(mainScene, baseInfo, scoreList, player1, player2, player3, player4) {
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
     
@@ -42,7 +42,7 @@ export function createScene(player1, player2, player3, player4) {
         P2_MODEL = m;
     });
     
-    BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Yoshi.babylon", scene, function (meshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@34b9dbfbaa4f96c989dd8cd0649863fa4af5fe9c/", "rToad.babylon", scene, function (meshes) {
         var m = meshes[0];
         m.isVisible = true;
         m.position = new BABYLON.Vector3(0, 1, 0);
@@ -83,7 +83,7 @@ export function createScene(player1, player2, player3, player4) {
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     
     var text1 = new BABYLON.GUI.TextBlock();
-    timeLeft = "";
+    var timeLeft = "";
     text1.text = "Time: ";
     text1.color = "white";
     text1.fontSize = 30;
@@ -135,15 +135,28 @@ export function createScene(player1, player2, player3, player4) {
            alert("BOOM! THE BOMB EXPLODES!");
            if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -2.3) {
                alert("Player 1 loses! Player 2, 3, and 4 win!");
+               scoreList.player2Score += 100;
+               scoreList.player3Score += 100;
+               scoreList.player4Score += 100;
            } else if (BALL[0].position.x == -0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
                alert("Player 2 loses! Player 1, 3, and 4 win!");
+               scoreList.player1Score += 100;
+               scoreList.player3Score += 100;
+               scoreList.player4Score += 100;
            } else if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -0.7) {
                alert("Player 3 loses! Player 1, 2, and 4 win!");
+               scoreList.player1Score += 100;
+               scoreList.player2Score += 100;
+               scoreList.player4Score += 100;
            } else if (BALL[0].position.x == 0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
                alert("Player 4 loses! Player 1, 2, and 3 win!");
+               scoreList.player1Score += 100;
+               scoreList.player2Score += 100;
+               scoreList.player3Score += 100;
            } else {
                alert("The bomb was in the middle of being passed, so IT'S A TIE!");
            }
+           mainScene(baseInfo, scoreList);
        }
     });
 
