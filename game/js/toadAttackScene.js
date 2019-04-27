@@ -15,7 +15,7 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     var player1_model;
     var player2_model;
     var player3_model;
-
+    
     var canvas = document.getElementById("renderCanvas");
     var engine = new BABYLON.Engine(canvas, true);
     // This creates a basic Babylon Scene object (non-mesh)
@@ -24,8 +24,6 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 4, -10), scene);
     // This targets the camera to scene origin
     camera.setTarget(new BABYLON.Vector3(0,0,10));
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var light = new BABYLON.PointLight("light", new BABYLON.Vector3(0,5,-5), scene);
     // Default intensity is 1. Let's dim the light a small amount
@@ -80,29 +78,121 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
         TOAD_MODEL = m;
     });
     
-    BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Mario.babylon", scene, function (meshes) {
-        var m = meshes[0];
-        m.isVisible = true;
-        m.position = new BABYLON.Vector3(LANES_POSITIONS[0] + 3, 5, 0);
-        m.scaling = new BABYLON.Vector3(3,3,3);
-        player1_model = m;
-    });
-    
-    BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Peach.babylon", scene, function (meshes) {
-        var m = meshes[0];
-        m.isVisible = true;
-        m.position = new BABYLON.Vector3(LANES_POSITIONS[1], 5.5, 7);
-        m.scaling = new BABYLON.Vector3(3,3,3);
-        player2_model = m;
-    });
-    
-    BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Yoshi.babylon", scene, function (meshes) {
-        var m = meshes[0];
-        m.isVisible = true;
-        m.position = new BABYLON.Vector3(LANES_POSITIONS[2] - 3, 5, 0);
-        m.scaling = new BABYLON.Vector3(3,3,3);
-        player3_model = m;
-    });
+    switch(player1.charName) {
+        case "mario":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Mario.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[0] + 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player1_model = m;
+            });
+            break;
+        case "luigi":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Luigi.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[0] + 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player1_model = m;
+            });
+            break;
+        case "peach":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Peach.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[0] + 3, 5, 3);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player1_model = m;
+            });
+            break;
+        case "toad":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@34b9dbfbaa4f96c989dd8cd0649863fa4af5fe9c/", "rToad.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[0] + 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player1_model = m;
+            });
+            break;
+    }
+
+    switch(player2.charName) {
+        case "mario":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Mario.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[1], 5.5, 1);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "luigi":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Luigi.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[1], 5.5, 1);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "peach":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Peach.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[1], 5.5, 7);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "toad":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@34b9dbfbaa4f96c989dd8cd0649863fa4af5fe9c/", "rToad.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[1], 5.5, 1);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+    }
+    switch(player3.charName) {
+        case "mario":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Mario.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[2] - 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "luigi":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Luigi.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[2] - 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "peach":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@89766648da6879687822d045e8c7817d3127b852/", "Peach.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[2] - 3, 5, 3);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+        case "toad":
+            BABYLON.SceneLoader.ImportMesh("", "https://cdn.jsdelivr.net/gh/ntgomes/babylonjs_stuff@34b9dbfbaa4f96c989dd8cd0649863fa4af5fe9c/", "rToad.babylon", scene, function (meshes) {
+                var m = meshes[0];
+                m.isVisible = true;
+                m.position = new BABYLON.Vector3(LANES_POSITIONS[2] - 3, 5, 0);
+                m.scaling = new BABYLON.Vector3(3,3,3);
+                player2_model = m;
+            });
+            break;
+    }
     
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     
@@ -132,6 +222,30 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     text3.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
     text3.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
     advancedTexture.addControl(text3);
+    
+    var text4 = new BABYLON.GUI.TextBlock();
+    text4.text = "     A";
+    text4.color = "black";
+    text4.fontSize = 70;
+    text4.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+    text4.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+    advancedTexture.addControl(text4);
+    
+    var text5 = new BABYLON.GUI.TextBlock();
+    text5.text = " Space";
+    text5.color = "black";
+    text5.fontSize = 60;
+    text5.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    text5.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+    advancedTexture.addControl(text5);
+    
+    var text6 = new BABYLON.GUI.TextBlock();
+    text6.text = "                                                                 ;";
+    text6.color = "black";
+    text6.fontSize = 70;
+    text6.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+    text6.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+    advancedTexture.addControl(text6);
 
     var ENEMIES  = [];  // An array that will contain all spawned in toad models
     // Function that creates a shroom in a random lane
@@ -194,9 +308,9 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
                     alert("TIE!");
                     break;
             }
-            scoreList.player1Score += aRatio * 100;
-            scoreList.player2Score += bRatio * 100;
-            scoreList.player3Score += cRatio * 100;
+            scoreList.player1Score += Math.floor(aRatio * 100);
+            scoreList.player2Score += Math.floor(bRatio * 100);
+            scoreList.player3Score += Math.floor(cRatio * 100);
             mainScene(baseInfo, scoreList);
         }
     };
@@ -294,10 +408,10 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
             case 65 : // pressing 'A'
                 currentEnding = 0;
                 break;
-            case 83 : // pressing 'S'
+            case 32 : // pressing 'space'
                 currentEnding = 1;
                 break;
-            case 68 : // pressing 'D'
+            case 59 : // pressing ';'
                 currentEnding = 2;
                 break;
         }
