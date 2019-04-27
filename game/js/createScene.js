@@ -48,7 +48,7 @@ var createScene = function (baseInformation, updatedScores) {
     var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, mainScene);
     var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", mainScene);
     skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../assets/textures/skybox", mainScene);
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/textures/skybox", mainScene);
     skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -262,7 +262,7 @@ const loadGUI = (scene) => {
         panel.left="5px";
         gameGui.addControl(panel);   
 
-        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/" +icon);
+        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
         image1.width = "40px";
         image1.height = "40px";
         image1.left = "5px";
@@ -392,37 +392,30 @@ const generateTerrain = (scene) => {
 }
 
 const loadCharacters = (scene, players = []) => {
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Peach.babylon", mainScene, function(newMeshes) {
+	var baseURL = "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/";
+    BABYLON.SceneLoader.ImportMesh("", baseURL, "Peach.babylon", mainScene, function(newMeshes) {
         players[0] = newMeshes[0];
         players[0].scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
         players[0].position = new BABYLON.Vector3(-1.5, .4, 3.5);
         players[0].charName = "peach";      
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Mario.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", baseURL, "Mario.babylon", mainScene, function(newMeshes) {
         players[1] = newMeshes[0];
         players[1].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[1].position = new BABYLON.Vector3(-.5, .35, -3.5);
         players[1].charName = "mario";
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Luigi.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", baseURL, "Luigi.babylon", mainScene, function(newMeshes) {
         players[2] = newMeshes[0];
         players[2].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[2].position = new BABYLON.Vector3(2.5, .35, -3.5);
         players[2].charName = "luigi";
     });
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Toad.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", baseURL, "Toad.babylon", mainScene, function(newMeshes) {
         players[3] = newMeshes[0];
         players[3].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[3].position = new BABYLON.Vector3(.5, .35, -3.5);
         players[3].charName = "toad";
     });
-    /*
-    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Yoshi.babylon", mainScene, function(newMeshes) {
-        players[4] = newMeshes[0];
-        players[4].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
-        players[4].position = new BABYLON.Vector3(1.5, .35, -3.5);
-        players[4].charName = "yoshi";
-    });
-    */
     return players;
 }
