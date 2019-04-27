@@ -70,7 +70,7 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     });
     // Mario: (0, 1, -2.3)
     // Peach: (-0.6, 1, -1.5)
-    // Yoshi: (0, 1, -0.7)
+    // Toad: (0, 1, -0.7)
     // Luigi: (0.6, 1, -1.5)
 
     // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
@@ -92,7 +92,10 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     advancedTexture.addControl(text1);
     
     var text2 = new BABYLON.GUI.TextBlock();
-    text2.text = "Press A to pass left!\nPress D to pass right!";
+    text2.text = "Mario: A to pass left, D to pass right!\n" +
+                 "Peach: V to pass left, N to pass right!\n" +
+                 "Toad: I to pass left, P to pass right!\n" +
+                 "Luigi: Left arrow to pass left, Right arrow to pass right!";
     text2.color = "white";
     text2.fontSize = 30;
     text2.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
@@ -127,7 +130,7 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     engine.runRenderLoop(function () {
        scene.render();
        if (tReady == true) {
-           startTimer(20);
+           startTimer(30);
            tReady = false;
        }
        if (gameEnd) {
@@ -228,39 +231,57 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     function onKeyDown(evt) {
         if (ready) {
             switch(evt.keyCode) {
-                case 65:    // left!
+                case 65:    // Mario left!
                     if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -2.3) {
                         BALL.map(function(m) {
                             scene.beginAnimation(m, 0, 5, true, 1);
                         });
-                    } else if (BALL[0].position.x == -0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
+                    }
+                    break;
+                case 68:    // Mario right!
+                    if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -2.3) {
+                        BALL.map(function(m) {
+                            scene.beginAnimation(m, 6, 11, true, 1);
+                        });
+                    }
+                    break;
+                case 86:    // Peach left!
+                    if (BALL[0].position.x == -0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
                         BALL.map(function(m) {
                             scene.beginAnimation(m, 18, 23, true, 1);
                         });
-                    } else if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -0.7) {
+                    }
+                    break;
+                case 78:    // Peach right!
+                    if (BALL[0].position.x == -0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
+                        BALL.map(function(m) {
+                            scene.beginAnimation(m, 12, 17, true, 1);
+                        });
+                    }
+                    break;
+                case 73:    // Yoshi left!
+                    if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -0.7) {
                         BALL.map(function(m) {
                             scene.beginAnimation(m, 30, 35, true, 1);
                         });
-                    } else if (BALL[0].position.x == 0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
+                    }
+                    break;
+                case 80:    // Yoshi right!
+                    if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -0.7) {
+                        BALL.map(function(m) {
+                            scene.beginAnimation(m, 24, 29, true, 1);
+                        });
+                    }
+                    break;
+                case 37:    // Luigi left!
+                    if (BALL[0].position.x == 0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
                         BALL.map(function(m) {
                             scene.beginAnimation(m, 42, 47, true, 1);
                         });
                     }
                     break;
-                case 68:    // right!
-                    if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -2.3) {
-                        BALL.map(function(m) {
-                            scene.beginAnimation(m, 6, 11, true, 1);
-                        });
-                    } else if (BALL[0].position.x == -0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
-                        BALL.map(function(m) {
-                            scene.beginAnimation(m, 12, 17, true, 1);
-                        });
-                    } else if (BALL[0].position.x == 0 && BALL[0].position.y == 1 && BALL[0].position.z == -0.7) {
-                        BALL.map(function(m) {
-                            scene.beginAnimation(m, 24, 29, true, 1);
-                        });
-                    } else if (BALL[0].position.x == 0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
+                case 39:    // Luigi right!
+                    if (BALL[0].position.x == 0.6 && BALL[0].position.y == 1 && BALL[0].position.z == -1.5) {
                         BALL.map(function(m) {
                             scene.beginAnimation(m, 36, 41, true, 1);
                         });
