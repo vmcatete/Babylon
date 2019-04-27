@@ -7,10 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
         createScene();
 	}
 }, false);
+
 var currentPlayer;
 var mainScene;
 var gameGui;
 var rollMessage;
+var label1;
 var playerList = [];
 var playerPoints = [];
 var playerLabels = [];
@@ -31,9 +33,6 @@ var createScene = function (baseInformation, updatedScores) {
 
     // This targets the camera to scene origin
     camera.setTarget(BABYLON.Vector3.Zero());
-
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), mainScene);
@@ -85,7 +84,7 @@ const triggerEvent = async () => {
         baseInfo = {player1Pos: playerList[0].position, player2Pos: playerList[1].position, player3Pos: playerList[2].position, player4Pos: playerList[3].position, cPlayer: cPlayerNum};
         scoreList = {player1Score: playerPoints[0], player2Score: playerPoints[1], player3Score: playerPoints[2], player4Score: playerPoints[3]};
         /* Determine which game */
-        var gameIndex = Math.floor(Math.random()*100) % 3;
+        var gameIndex = Math.floor(Math.random()*100) % 2;  // CHANGE TO 3 WHEN FRUIT CAPTURE IS READY!
         /* Determine how many and which players */
         var gamePlayers = [];
         var minigame;
@@ -93,26 +92,34 @@ const triggerEvent = async () => {
         engine.stopRenderLoop();
         switch(gameIndex) {
             case 0:
-                while(gamePlayers.length < 3) {
-                    var playerNum = Math.floor(Math.random() * 100) % 4;
-                    if (gamePlayers.indexOf(playerNum) === -1) {
-                        gamePlayers.push(playerList[playerNum]);
-                    }
+                var playerArrange = Math.floor(Math.random() * 100) % 6;
+                switch(playerArrange) {
+                    case 0:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2]);
+                        break;
+                    case 1:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[3]);
+                        break;
+                    case 2:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[0], playerList[2], playerList[1]);
+                        break;
+                    case 3:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[1], playerList[2], playerList[3]);
+                        break;
+                    case 4:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[3], playerList[0], playerList[1]);
+                        break;
+                    case 5:
+                        minigame = games[0](createScene, baseInfo, scoreList, playerList[2], playerList[3], playerList[1]);
+                        break;
                 }
-                minigame = games[0](createScene, baseInfo, scoreList, gamePlayers[0], gamePlayers[1], gamePlayers[2]);
                 break;
             case 1:
                 minigame = games[1](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
                 break; 
             case 2:
-		while(gamePlayers.length < 4) {
-                    var playerNum = Math.floor(Math.random() * 100) % 4;
-                    if (gamePlayers.indexOf(playerNum) === -1) {
-                        gamePlayers.push(playerNum);
-                    }
-                }
-                minigame = games[2](createScene, baseInfo, scoreList, gamePlayers[0], gamePlayers[1], gamePlayers[2], gamePlayers[3]);
-              	break;
+                minigame = games[2](createScene, baseInfo, scoreList, playerList[0], playerList[1], playerList[2], playerList[3]);
+                break;
         }
     }, 2000);
 }
@@ -207,6 +214,7 @@ const animateMovement = (scene, roll) => {
             () => {
                 mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false/*, triggerEvent()*/);
         setTimeout(function() {
+            label1.text = "Loading a random minigame!";
             triggerEvent();
         }, 3000);
     });
@@ -216,6 +224,7 @@ const animateMovement = (scene, roll) => {
         mainScene.beginDirectAnimation(currentPlayer, [xSlide], 0, 2 * frameRate, false, 1, () => {
         mainScene.beginDirectAnimation(currentPlayer, [zSlide], 0, 2 * frameRate, false/*,triggerEvent()*/ );
         setTimeout(function() {
+            label1.text = "Loading a random minigame!";
             triggerEvent();
         }, 3000);
     });
@@ -244,7 +253,7 @@ const loadGUI = (scene) => {
         panel.left="5px";
         gameGui.addControl(panel);   
 
-        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/" +icon);
+        var image1 = new BABYLON.GUI.Image("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/" +icon);
         image1.width = "40px";
         image1.height = "40px";
         image1.left = "5px";
@@ -303,7 +312,7 @@ const createRollSplash = (move) => {
     rect1.background = "gold";
     rect1.paddingLeft = "5px";
 
-    var label1 = new BABYLON.GUI.TextBlock();
+    label1 = new BABYLON.GUI.TextBlock();
     label1.text = "You rolled a " + move +"!";
     rect1.addControl(label1); 
     return rect1;
@@ -374,30 +383,37 @@ const generateTerrain = (scene) => {
 }
 
 const loadCharacters = (scene, players = []) => {
-	var baseURL = "https://raw.githubusercontent.com/vmcatete/Mario-Babylon/master/assets/";
-    BABYLON.SceneLoader.ImportMesh("", baseURL, "Peach.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Peach.babylon", mainScene, function(newMeshes) {
         players[0] = newMeshes[0];
         players[0].scaling = new BABYLON.Vector3(1.5, 1.5, 1.5);
         players[0].position = new BABYLON.Vector3(-1.5, .4, 3.5);
         players[0].charName = "peach";      
     });
-    BABYLON.SceneLoader.ImportMesh("", baseURL, "Mario.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Mario.babylon", mainScene, function(newMeshes) {
         players[1] = newMeshes[0];
         players[1].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[1].position = new BABYLON.Vector3(-.5, .35, -3.5);
         players[1].charName = "mario";
     });
-    BABYLON.SceneLoader.ImportMesh("", baseURL, "Luigi.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Luigi.babylon", mainScene, function(newMeshes) {
         players[2] = newMeshes[0];
         players[2].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[2].position = new BABYLON.Vector3(2.5, .35, -3.5);
         players[2].charName = "luigi";
     });
-    BABYLON.SceneLoader.ImportMesh("", baseURL, "Toad.babylon", mainScene, function(newMeshes) {
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Toad.babylon", mainScene, function(newMeshes) {
         players[3] = newMeshes[0];
         players[3].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
         players[3].position = new BABYLON.Vector3(.5, .35, -3.5);
         players[3].charName = "toad";
     });
+    /*
+    BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/vmcatete/babylon/master/assets/", "Yoshi.babylon", mainScene, function(newMeshes) {
+        players[4] = newMeshes[0];
+        players[4].scaling = new BABYLON.Vector3(2.5, 3, 2.5);
+        players[4].position = new BABYLON.Vector3(1.5, .35, -3.5);
+        players[4].charName = "yoshi";
+    });
+    */
     return players;
 }
