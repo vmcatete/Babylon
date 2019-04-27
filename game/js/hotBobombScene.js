@@ -79,6 +79,15 @@ export function createScene(mainScene, baseInfo, scoreList, player1, player2, pl
     mat.diffuseColor = new BABYLON.Color3(0.9,0.9,0.2);     // This line will make the ground yellow
     ground.material = mat;  // It will assign the yellow color to the actual ground as a material
     
+    var skybox = BABYLON.MeshBuilder.CreateBox("firebox", {size:1000.0}, scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("firebox", scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../assets/textures/firebox", scene);
+    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    skybox.material = skyboxMaterial;
+    
     /* THE GUI */
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     
